@@ -10,15 +10,18 @@ download dataset [baidu_pan](https://pan.baidu.com/s/1qRHLwirC_MeFKJvGDAphQQ?pwd
 ## RUN  
 
 ### TA-HD   
+-generate adversarial examples   
 ` python TA_HD_train.py `   
+-test ASR    
 ` python TA_HD_test.py`   
 
 
 
 
 ### FGSM   
-
+-generate adversarial examples    
 ` python FGSM_train.py`   
+-test ASR    
 ` python FGSM_test.py`   
 
 
