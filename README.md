@@ -10,20 +10,20 @@ download dataset [baidu_pan](https://pan.baidu.com/s/1qRHLwirC_MeFKJvGDAphQQ?pwd
 ## RUN  
 
 ### TA-HD   
--generate adversarial examples   
+`-`generate adversarial examples   
 `python TA_HD_train.py `  
      
--test ASR    
+`-`test ASR    
 `python TA_HD_test.py`   
 
 
 
 
 ### FGSM   
--generate adversarial examples    
+`-`generate adversarial examples    
 `python FGSM_train.py`   
      
--test ASR    
+`-`test ASR    
 `python FGSM_test.py`   
 
   
@@ -32,7 +32,7 @@ download dataset [baidu_pan](https://pan.baidu.com/s/1qRHLwirC_MeFKJvGDAphQQ?pwd
 
   
 ### CAM visual (hot map)    
-'python Image_CAM.py'   
+`python Image_CAM.py`  
 
 
 
