@@ -6,6 +6,15 @@ Transfer-based attacks utilize the proxy model to craft adversarial examples aga
 ## Implement   
 download dataset [Baidu_pan](https://pan.baidu.com/s/1qRHLwirC_MeFKJvGDAphQQ?pwd=3xrz)    [Google drive](https://drive.google.com/file/d/1M922wnWCA5Ro3_xd5jC5z8FBVkzAfNoR/view?usp=drive_link)  
 
+## Main Environment  
+> Ubuntu 20.04  
+> CUDA 11.8   
+> cudnn8   
+> python==3.10.13   
+> pytorch==2.0.1   
+> torchvision==0.15.2   
+> timm == 1.0.3    
+
 
 ## RUN  
 
