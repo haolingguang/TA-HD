@@ -11,17 +11,28 @@ download dataset [baidu_pan](https://pan.baidu.com/s/1qRHLwirC_MeFKJvGDAphQQ?pwd
 
 ### TA-HD   
 -generate adversarial examples   
-` python TA_HD_train.py `   
+`python TA_HD_train.py `  
+     
 -test ASR    
-` python TA_HD_test.py`   
+`python TA_HD_test.py`   
 
 
 
 
 ### FGSM   
 -generate adversarial examples    
-` python FGSM_train.py`   
+`python FGSM_train.py`   
+     
 -test ASR    
-` python FGSM_test.py`   
+`python FGSM_test.py`   
+
+  
+### test defense performance   
+`python Defense_visual.py`    
+
+  
+### CAM visual (hot map)    
+'python Image_CAM.py'   
+
 
 
