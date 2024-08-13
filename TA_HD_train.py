@@ -12,14 +12,14 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.utils import save_image
 import timm
 
-# 导入数据加载方式
+
 from utils.Dataset import Dataset,NIPS_trans
 
-# 导入假设防御模型
+
 from utils.U_Net import Unet, Unet_5, Unet_4, Unet_3, Unet_2
 from utils.ATTA_Net import Conv_Net
 
-# 导入攻击方式
+
 from HD_ATTACK.HD_MI import HD_MI
 from HD_ATTACK.HD_DI import HD_DI
 from HD_ATTACK.HD_TI import HD_TI
@@ -60,10 +60,10 @@ parser.add_argument('--local_model', default='inception_v3',type=str, help='trai
 parser.add_argument('--NIPS_data', default='/data/archive',type=str, help='input directory')
 parser.add_argument('--New_data1w', default='./data/newDataset_1w',type=str, help='input directory')
 parser.add_argument('--New_data1k', default='./data/newDataset_1k',type=str, help='input directory')
-parser.add_argument('--ImageNet_data', metavar='DIR',default='/raid/datasets/ImageNet/ILSVRC/Data/CLS-LOC',
+parser.add_argument('--ImageNet_data', metavar='DIR',default='./data/ImageNet/ILSVRC/Data/CLS-LOC',
                     help='path to dataset')
-parser.add_argument('--ImageNetv2', default='/raid/datasets/',type=str, help='input directory')
-parser.add_argument('--categories', default='/raid/haolingguang/dataset/archive/images.csv', type=str, help='label file directory')
+parser.add_argument('--ImageNetv2', default='./data',type=str, help='input directory')
+parser.add_argument('--categories', default='./data/archive/images.csv', type=str, help='label file directory')
 parser.add_argument('--workers', default = 4,type=int, help='number of data loading workers (default: 4)')
 parser.add_argument('--test_dataset', default = 'NIPS',type=str)
 parser.add_argument('--scheduler', default = True,type=bool)
@@ -143,21 +143,21 @@ class Attack:
             # for name, parameters in self.attack.T_net.named_parameters():
             #     print(name)
             self.attack.T_net.train() 
-            # print(self.attack.T_net.state_dict()['module.inc.double_conv.0.weight'])  # 填该层参数名
+            # print(self.attack.T_net.state_dict()['module.inc.double_conv.0.weight']) 
             # print(self.attack.T_net.state_dict()['module.inc.double_conv.0.bias'])
             # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.weight'])
             # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.bias'])
             loss=self.train(self.local_model, self.train_loader,epoch,loss)
-            # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.weight'])  # 填该层参数名
+            # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.weight']) 
             self.attack.T_net.eval()
             self.test(self.local_model,self.val_loader,epoch)
-            # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.weight'])  # 填该层参数名
+            # print(self.attack.T_net.state_dict()['module.inc.double_conv.1.weight'])  
             # log_string('| epoch: %d | Tar_Acc: %.3f | Ori_Acc: %.3f | Succ_rate: %.3f'%(epoch, Tar_Acc, Ori_Acc, Succ_rate)) 
             
             if args.scheduler:
                 self.scheduler.step()
             
-            # 保存HD参数
+
             torch.save(self.attack.T_net.state_dict(), (PRARMETERS_DIR + '/{}_{}_{}_{}.pth').format(args.test_dataset, args.U_Net, args.local_model,str(epoch)))
 
             # if epoch==1:
@@ -207,13 +207,13 @@ class CustomImageFolder(datasets.ImageFolder):
     def __getitem__(self, index):
         path, _ = self.samples[index]
         image, target = super().__getitem__(index)
-        filename = path.split('/')[-1]  # 获取文件名
+        filename = path.split('/')[-1]  
         return image, target, filename
     
     
 def main():
     
-    # HD网络模型，可以用于消融实验
+
     if args.U_Net=='Unet_5':
         t_net = Unet_5(3,3)
     elif args.U_Net=='Unet_4':
@@ -233,7 +233,7 @@ def main():
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epoch, eta_min=0, last_epoch=-1)
     
         
-    # 选择攻击方式
+
     if args.method == 'HD_MI':
         atta = HD_MI(args.max_epsilon,args.norm,args.num_steps,t_net,optimizer)
     elif args.method == 'HD_DI':
@@ -282,11 +282,11 @@ def main():
 
 def plot(data, path, label):
     
-    #调节字体
-    plt.rcParams['font.sans-serif'] = ['Times New Roman']  # 用来正常显示中文标签
-    plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-    plt.rcParams['xtick.direction'] = 'in'#将x周的刻度线方向设置向内
-    plt.rcParams['ytick.direction'] = 'in'#将y轴的刻度方向设置向内
+
+    plt.rcParams['font.sans-serif'] = ['Times New Roman']  
+    plt.rcParams['axes.unicode_minus'] = False 
+    plt.rcParams['xtick.direction'] = 'in'
+    plt.rcParams['ytick.direction'] = 'in'
 
     t = data
     xAxis1 = range(0,len(t))
@@ -298,7 +298,7 @@ def plot(data, path, label):
     # plt.title("InceptionResnet-v2",fontsize=15)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
-    #设置坐标轴刻度间隔
+
     ax=plt.gca()
     # ax.xaxis.set_major_locator(MultipleLocator(200))
     # ax.yaxis.set_major_locator(MultipleLocator(y_locator))
@@ -306,7 +306,7 @@ def plot(data, path, label):
     # plt.ylim(-y_clim,y_clim)
 
     # plt.legend()
-    #设置网格
+
     # plt.grid(axis="y", linewidth=0.1)
     plt.savefig(path,dpi=500,bbox_inches = 'tight')
     plt.show()
